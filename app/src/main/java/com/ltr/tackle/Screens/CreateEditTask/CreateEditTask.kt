@@ -146,7 +146,7 @@ fun CreateEditScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 DateInputWithValidation(
-                    value = date.toString(),
+                    value = date,
                     label = stringResource(R.string.screen_create_task_date),
                     onClick = { showDatePicker = true },
                     validationErrorText = stringResource(R.string.screen_create_task_validation_date),

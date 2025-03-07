@@ -26,6 +26,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ltr.tackle.R
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 data class TextInputProps(
     val value: String,
@@ -88,7 +90,7 @@ fun TextInputWithValidation(
 
 @Composable
 fun DateInputWithValidation(
-    value: String,
+    value: LocalDate,
     label: String,
     onClick: () -> Unit,
     validationErrorText: String,
@@ -119,7 +121,11 @@ fun DateInputWithValidation(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = value)
+
+                val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                val formattedDate = value.format(formatter)
+
+                Text(text = formattedDate)
                 Image(
                     painter = painterResource(R.drawable.icon_calendar),
                     contentDescription = "calendar",
