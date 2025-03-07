@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Tackle</string>
+
+
+    <string name="navigation_today">Heute</string>
+    <string name="navigation_collection">Sammlung</string>
+    <string name="navigation_settings">Einstellungen</string>
+
+
+
+    <string name="top_bar_today">Heute</string>
+    <string name="top_bar_create_task">Aufgabe erstellen</string>
+
+    <string name="screen_create_task_date">Datum</string>
+    <string name="screen_create_task_title">Titel</string>
+    <string name="screen_create_task_description">Beschreibung</string>
+    <string name="screen_create_task_create">ERSTELLEN</string>
+
+    <string name="todays_tasks">Deine heutigen Aufgaben</string>
+
+
+</resources>
