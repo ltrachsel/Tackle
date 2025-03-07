@@ -51,11 +51,10 @@ class TaskRepository @Inject constructor() {
             .map { it.copy() }
     }
 
-    fun createTask(title: String, description: String, date: String) {
+    fun createTask(title: String, description: String, date: LocalDate) {
         val id = generateUUID()
-        val today = LocalDate.now()
 
-        val newTask = Task(id, false, title, today, description)
+        val newTask = Task(id, false, title, date, description)
         tasks.add(newTask)
     }
 
@@ -68,10 +67,6 @@ class TaskRepository @Inject constructor() {
         task.completed = !task.completed
 
         return task.copy()
-    }
-
-    fun addTask(counter: Int): Task?{
-        return null;
     }
 
     private fun generateUUID(): String{

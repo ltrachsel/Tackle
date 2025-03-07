@@ -15,6 +15,11 @@
     <string name="screen_create_task_title">Titel</string>
     <string name="screen_create_task_description">Beschreibung</string>
     <string name="screen_create_task_create">ERSTELLEN</string>
+    <string name="screen_create_task_validation_title">Titel ist erforderlich</string>
+    <string name="screen_create_task_validation_date">Datum ist erforderlich</string>
+
+
+
 
     <string name="todays_tasks">Deine heutigen Aufgaben</string>
 

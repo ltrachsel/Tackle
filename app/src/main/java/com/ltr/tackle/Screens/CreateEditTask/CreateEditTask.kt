@@ -15,8 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,12 +27,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ltr.tackle.R
+import com.ltr.tackle.Screens.Components.DateInputWithValidation
+import com.ltr.tackle.Screens.Components.TextInput
+import com.ltr.tackle.Screens.Components.TextInputProps
+import com.ltr.tackle.Screens.Components.TextInputWithValidation
 import com.ltr.tackle.Screens.Components.Topbar
 import java.util.Calendar
 
@@ -63,15 +64,14 @@ fun CreateEditScreen(
         DatePickerDialog(
             context,
             { _, year, month, dayOfMonth ->
-                val selectedDate = "$dayOfMonth/${month + 1}/$year"
-                viewModel.setDate(selectedDate)
-                showDatePicker = false  // Close the dialog
+                viewModel.setDate(dayOfMonth, month+1, year)
+                showDatePicker = false
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         ).apply {
-            setOnCancelListener { showDatePicker = false } // Reset when canceled
+            setOnCancelListener { showDatePicker = false }
         }.show()
     }
 
@@ -131,95 +131,40 @@ fun CreateEditScreen(
                     backButtonClickHandler = { navController.popBackStack() }
                 )
 
-
                 Spacer(modifier = Modifier.height(16.dp))
 
-                TextFieldWithLabel(
-                    label = stringResource(R.string.screen_create_task_title),
-                    value = title,
-                    isValid = isTitleValid,
-                    validationLabel = "Titel darf nicht leer sein!",
-                    onValueChangeHandler = {
-                        viewModel.setTitle(it)
-                    }
+                TextInputWithValidation(
+                    props = TextInputProps(
+                        value = title,
+                        label = stringResource(R.string.screen_create_task_title),
+                        onValueChange = { viewModel.setTitle(it) }
+                    ),
+                    validationErrorText = stringResource(R.string.screen_create_task_validation_title),
+                    isValid = isTitleValid
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                TextFieldWithLabel(
+                DateInputWithValidation(
+                    value = date.toString(),
                     label = stringResource(R.string.screen_create_task_date),
-                    value = date,
-                    isValid = isDateValid,
-                    validationLabel = "Datum darf nicht leer sein!",
-                    onValueChangeHandler = {
-                        viewModel.setDate(it)
-                    },
-                    modifier = Modifier.clickable { showDatePicker = true },
+                    onClick = { showDatePicker = true },
+                    validationErrorText = stringResource(R.string.screen_create_task_validation_date),
+                    isValid = isDateValid
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                TextFieldWithLabel(
-                    label = stringResource(R.string.screen_create_task_description),
-                    value = description,
-                    onValueChangeHandler = {
-                        viewModel.setDescription(it)
-                    },
-                    singleLine = false,
-                    maxLines = 5,
-                    textFieldModifier = Modifier.height(150.dp)
+                TextInput(
+                    props = TextInputProps(
+                        value = description,
+                        label = stringResource(R.string.screen_create_task_description),
+                        onValueChange = { viewModel.setDescription(it) },
+                        isMultiLine = true
+                    )
                 )
             }
         }
 
-    }
-}
-
-@Composable
-fun TextFieldWithLabel(
-    value: String,
-    onValueChangeHandler: (String) -> Unit,
-    label: String,
-    validationLabel: String = "",
-    @SuppressLint("ModifierParameter") textFieldModifier: Modifier = Modifier,
-    isValid: Boolean? = null,
-    modifier: Modifier = Modifier,
-    singleLine: Boolean = true,
-    maxLines: Int = 1
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        Text(
-            style = MaterialTheme.typography.titleMedium,
-            text = label,
-            color = Color.Black,
-            modifier = Modifier
-                .padding(bottom = 4.dp)
-        )
-
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChangeHandler,
-            modifier = textFieldModifier
-                .fillMaxWidth(),
-            singleLine = singleLine,
-            maxLines = maxLines,
-            shape = RoundedCornerShape(5), // Rounded corners
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedContainerColor = Color.White,
-                focusedContainerColor = Color.White,
-
-                focusedBorderColor = Color.Black, // Change this color as needed
-                unfocusedBorderColor = colorResource(R.color.light_gray) // Default border color
-            )
-        )
-
-        if (isValid != null) {
-            if (!isValid) {
-                Text(text = validationLabel)
-            }
-        }
     }
 }
