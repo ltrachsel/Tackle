@@ -1,6 +1,7 @@
 package com.ltr.tackle.Data
 
 import com.ltr.tackle.Data.Entities.Task
+import com.ltr.tackle.Data.Entities.TaskGroup
 import java.time.LocalDate
 import java.util.UUID
 import javax.inject.Inject
@@ -10,9 +11,63 @@ import javax.inject.Singleton
 class TaskRepository @Inject constructor() {
     private val tasks = arrayListOf<Task>()
 
-
-
     init {
+        generateTestData()
+    }
+
+    /* Queries */
+
+    fun getTasks(): List<Task> {
+        return tasks.map { it.copy() }
+    }
+
+    fun getTasks(date: LocalDate): List<Task> {
+        return tasks.filter { it.date == date }
+            .map { it.copy() }
+    }
+
+    fun getTaskGroups(includeOutdatedTasks: Boolean): List<TaskGroup> {
+        /*val filteredTasks = if (includeOutdatedTasks) {
+            tasks
+        } else {
+            tasks.filter { it.date.isAfter(LocalDate.now()) }
+        }*/
+
+        val groupedByDate = tasks.groupBy { it.date }
+
+        return groupedByDate.map { (date, tasks) ->
+            TaskGroup(
+                date = date,
+                tasks = tasks.map { it.copy() }
+            )
+        }
+    }
+
+    /* Create */
+
+    fun createTask(title: String, description: String, date: LocalDate) {
+        val id = generateUUID()
+
+        val newTask = Task(id, false, title, date, description)
+        tasks.add(newTask)
+    }
+
+    fun toggleTaskStatus(taskId: String): Task? {
+        val task = tasks.find { it.id == taskId }
+
+        if (task == null)
+            return null
+
+        task.completed = !task.completed
+
+        return task.copy()
+    }
+
+    private fun generateUUID(): String{
+        return UUID.randomUUID().toString()
+    }
+
+    private fun generateTestData() {
         val today = LocalDate.now()
         val tomorrow = today.plusDays(1)
 
@@ -40,36 +95,5 @@ class TaskRepository @Inject constructor() {
                 Task(generateUUID(), false, "Clean the house", tomorrow, "Vacuum and organize workspace")
             )
         )
-    }
-
-    fun getTasks(): List<Task> {
-        return tasks.map { it.copy() }
-    }
-
-    fun getTasks(date: LocalDate): List<Task> {
-        return tasks.filter { it.date == date }
-            .map { it.copy() }
-    }
-
-    fun createTask(title: String, description: String, date: LocalDate) {
-        val id = generateUUID()
-
-        val newTask = Task(id, false, title, date, description)
-        tasks.add(newTask)
-    }
-
-    fun toggleTaskStatus(taskId: String): Task? {
-        val task = tasks.find { it.id == taskId }
-
-        if (task == null)
-            return null
-
-        task.completed = !task.completed
-
-        return task.copy()
-    }
-
-    private fun generateUUID(): String{
-        return UUID.randomUUID().toString()
     }
 }
