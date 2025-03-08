@@ -1,5 +1,6 @@
 package com.ltr.tackle.Screens.Components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,7 +25,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ltr.tackle.Data.Entities.Task
 import com.ltr.tackle.Data.Entities.TaskGroup
@@ -61,61 +64,81 @@ fun TaskList(
 @Composable
 fun TaskListItem(
     task: Task,
-    onClickHandler: () -> Unit
+    onClickHandler: () -> Unit,
+    onDelete: (() -> Unit)? = null
 ) {
     Row (
         modifier = Modifier
             .padding(bottom = 15.dp)
             .fillMaxWidth()
-            .clickable(
-                onClick = onClickHandler,
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            )
     ) {
         Box(
             modifier = Modifier
-                .size(25.dp, 25.dp)
-                .then(
-                    if (task.completed) {
-                        Modifier
-                            .border(1.dp, colorResource(R.color.green), RoundedCornerShape(9.dp))
-                            .background(colorResource(R.color.green), RoundedCornerShape(9.dp))
-                    } else {
-                        Modifier
-                            .border(
-                                1.dp,
-                                colorResource(R.color.light_gray),
-                                RoundedCornerShape(9.dp)
-                            )
-                            .background(Color.White, RoundedCornerShape(9.dp))
-                    }
+                .weight(1f)
+                .clickable(
+                    onClick = onClickHandler,
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
                 )
-        )
-
-        Column(
-            modifier = Modifier
-                .padding(start = 15.dp)
         ) {
-
-            val hasDescription = task.description.isNotBlank()
-
-            Text(
-                text = task.title,
-                style = MaterialTheme.typography.titleMedium,
-                color = if(task.completed) colorResource(R.color.green) else colorResource(R.color.black),
+            Row (
                 modifier = Modifier
-                    .padding(bottom = if (hasDescription) 5.dp else 0.dp)
-                    .height(25.dp)
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-            )
-
-            if(hasDescription) {
-                Text(
-                    text = task.description,
-                    style = MaterialTheme.typography.bodyMedium
+                    .fillMaxWidth()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(25.dp, 25.dp)
+                        .then(
+                            if (task.completed) {
+                                Modifier
+                                    .border(1.dp, colorResource(R.color.green), RoundedCornerShape(9.dp))
+                                    .background(colorResource(R.color.green), RoundedCornerShape(9.dp))
+                            } else {
+                                Modifier
+                                    .border(
+                                        1.dp,
+                                        colorResource(R.color.light_gray),
+                                        RoundedCornerShape(9.dp)
+                                    )
+                                    .background(Color.White, RoundedCornerShape(9.dp))
+                            }
+                        )
                 )
+
+                Column(
+                    modifier = Modifier
+                        .padding(start = 15.dp)
+                ) {
+
+                    val hasDescription = task.description.isNotBlank()
+
+                    Text(
+                        text = task.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = if(task.completed) colorResource(R.color.green) else colorResource(R.color.black),
+                        modifier = Modifier
+                            .padding(bottom = if (hasDescription) 5.dp else 0.dp)
+                            .height(25.dp)
+                            .wrapContentHeight(align = Alignment.CenterVertically)
+                    )
+
+                    if(hasDescription) {
+                        Text(
+                            text = task.description,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
             }
+        }
+
+        if (onDelete != null) {
+            Image(
+                painter = painterResource(R.drawable.icon_trash),
+                contentDescription = "trash",
+                colorFilter = ColorFilter.tint(Color.Black),
+                modifier = Modifier.size(24.dp)
+            )
         }
     }
 }
@@ -141,7 +164,8 @@ fun TaskGroupsList(
                 items(taskGroup.tasks, key = { it.id }) { task ->
                     TaskListItem(
                         task = task,
-                        onClickHandler = { /* Handle click */ }
+                        onClickHandler = { /* Handle click */ },
+                        onDelete = { }
                     )
                 }
             }
