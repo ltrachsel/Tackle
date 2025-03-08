@@ -7,6 +7,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.ltr.tackle.Data.Entities.Task
 import com.ltr.tackle.Data.Entities.TaskGroup
 import com.ltr.tackle.R
+import java.time.LocalDate
 
 @Composable
 fun TaskList(
@@ -122,10 +125,66 @@ fun TaskListItem(
 fun TaskGroupsList(
     taskGroups: List<TaskGroup>
 ) {
-    for (taskGroup in taskGroups) {
-        TaskList(
-            tasks = taskGroup.tasks,
-            taskOnClick = { }
-        )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        LazyColumn (
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            taskGroups.forEach { taskGroup ->
+                item(key = taskGroup.date) {  // Use `item()` for single items
+                    TaskGroupHeading(taskGroup)
+                }
+
+                items(taskGroup.tasks, key = { it.id }) { task ->
+                    TaskListItem(
+                        task = task,
+                        onClickHandler = { /* Handle click */ }
+                    )
+                }
+            }
+        }
     }
 }
+
+@Composable
+fun TaskGroupHeading(
+    taskGroup: TaskGroup
+) {
+    val title = when (taskGroup.date) {
+        LocalDate.now() -> "Today"
+        LocalDate.now().plusDays(1) -> "Tomorrow"
+        else -> taskGroup.date.toString()
+    }
+
+    Row (
+        modifier = Modifier
+            .padding(top = 10.dp, bottom = 25.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = title)
+    }
+}
+
+
+/*if(taskGroup.date.equals(LocalDate.now())) {
+                    for(task in taskGroup.tasks) {
+                        TaskListItem(
+                            task = task,
+                            onClickHandler = { }
+                        )
+                    }
+                }
+                else {
+                    TaskGroupHeading(taskGroup = taskGroup)
+
+                    for(task in taskGroup.tasks) {
+                        TaskListItem(
+                            task = task,
+                            onClickHandler = { }
+                        )
+                    }
+                }*/

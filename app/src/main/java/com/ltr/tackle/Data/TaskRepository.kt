@@ -68,32 +68,39 @@ class TaskRepository @Inject constructor() {
     }
 
     private fun generateTestData() {
-        val today = LocalDate.now()
-        val tomorrow = today.plusDays(1)
+        val startDate = LocalDate.now()
 
-        tasks.addAll(
-            listOf(
-                Task(generateUUID(), false, "Buy groceries", today, "Milk, Eggs, Bread"),
-                Task(generateUUID(), false, "Go for a run", today, "Run 5km in the park"),
-                Task(generateUUID(), false, "Finish coding task", today, "Complete the Compose feature"),
-                Task(generateUUID(), false, "Read a book", today, "Read 20 pages of a novel"),
-                Task(generateUUID(), false, "Cook dinner", today, "Try a new pasta recipe")
-            )
+        val testTasks = listOf(
+            "Buy groceries" to "Milk, Eggs, Bread",
+            "Go for a run" to "Run 5km in the park",
+            "Finish coding task" to "Complete the Compose feature",
+            "Read a book" to "Read 20 pages of a novel",
+            "Cook dinner" to "Try a new pasta recipe",
+            "Team meeting" to "Discuss project updates",
+            "Write blog post" to "Topic: Jetpack Compose best practices",
+            "Call Mom" to "Check in with her",
+            "Go to the gym" to "Workout session at 6 PM",
+            "Plan weekend trip" to "Look up hotels and attractions",
+            "Pay bills" to "Electricity and internet bills due",
+            "Grocery shopping" to "Stock up on fresh vegetables",
+            "Work on side project" to "Build the authentication feature",
+            "Watch a documentary" to "Learn about deep-sea exploration",
+            "Clean the house" to "Vacuum and organize workspace",
+            "Organize workspace" to "Declutter and rearrange desk",
+            "Practice meditation" to "10-minute mindfulness session",
+            "Update resume" to "Add recent projects and skills",
+            "Meal prep" to "Prepare meals for the upcoming week",
+            "Catch up on emails" to "Respond to pending messages"
         )
 
-        tasks.addAll(
-            listOf(
-                Task(generateUUID(), false, "Team meeting", tomorrow, "Discuss project updates"),
-                Task(generateUUID(), false, "Write blog post", tomorrow, "Topic: Jetpack Compose best practices"),
-                Task(generateUUID(), false, "Call Mom", tomorrow, "Check in with her"),
-                Task(generateUUID(), false, "Go to the gym", tomorrow, "Workout session at 6 PM"),
-                Task(generateUUID(), false, "Plan weekend trip", tomorrow, "Look up hotels and attractions"),
-                Task(generateUUID(), false, "Pay bills", tomorrow, "Electricity and internet bills due"),
-                Task(generateUUID(), false, "Grocery shopping", tomorrow, "Stock up on fresh vegetables"),
-                Task(generateUUID(), false, "Work on side project", tomorrow, "Build the authentication feature"),
-                Task(generateUUID(), false, "Watch a documentary", tomorrow, "Learn about deep-sea exploration"),
-                Task(generateUUID(), false, "Clean the house", tomorrow, "Vacuum and organize workspace")
+        repeat(10) { dayOffset ->
+            val date = startDate.plusDays(dayOffset.toLong())
+            val dailyTasks = testTasks.shuffled().take(5)  // Randomly select 5 tasks per day
+            tasks.addAll(
+                dailyTasks.map { (title, description) ->
+                    Task(generateUUID(), false, title, date, description)
+                }
             )
-        )
+        }
     }
 }
