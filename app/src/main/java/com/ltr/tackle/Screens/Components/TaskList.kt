@@ -1,5 +1,6 @@
 package com.ltr.tackle.Screens.Components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.ltr.tackle.Data.Entities.Task
 import com.ltr.tackle.Data.Entities.TaskGroup
 import com.ltr.tackle.R
+import com.theapache64.rebugger.Rebugger
 import java.time.LocalDate
 
 @Composable
@@ -51,9 +53,11 @@ fun TaskList(
 
                 //val isLastTask = task == tasks.lastOrNull()
 
+                val onClickHandler = remember(task.id) { { taskOnClick(task) } }
+
                 TaskListItem(
                     task = task,
-                    onClickHandler = { taskOnClick(task) }
+                    onClickHandler = onClickHandler
                 )
             }
         }
@@ -67,6 +71,8 @@ fun TaskListItem(
     onClickHandler: () -> Unit,
     onDelete: (() -> Unit)? = null
 ) {
+    Log.d("Recomposition!", "Recomposition")
+
     Row (
         modifier = Modifier
             .padding(bottom = 15.dp)
