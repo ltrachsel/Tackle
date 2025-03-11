@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -55,6 +56,7 @@ fun Topbar(
         Row (
             modifier = Modifier
                 .fillMaxWidth(),
+
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ){
@@ -63,6 +65,7 @@ fun Topbar(
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier
                     .padding()
+                    .alignBy(LastBaseline)
             )
 
             content?.invoke()
