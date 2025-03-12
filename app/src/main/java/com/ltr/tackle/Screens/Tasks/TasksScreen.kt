@@ -1,4 +1,4 @@
-package com.ltr.tackle.Screens.Collection
+package com.ltr.tackle.Screens.Tasks
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,9 +16,9 @@ import com.ltr.tackle.Screens.Components.TaskGroupsList
 import com.ltr.tackle.Screens.Components.Topbar
 
 @Composable
-fun CollectionScreen(
+fun TasksScreen(
     navController: NavController,
-    viewModel: CollectionViewModel = hiltViewModel()
+    viewModel: TasksViewModel = hiltViewModel()
 ) {
     val taskGroups = viewModel.taskGroups
 
@@ -39,7 +39,7 @@ fun CollectionScreen(
                     .fillMaxSize()
             ) {
                 Topbar(
-                    titleId = R.string.screen_collection_heading
+                    titleId = R.string.screen_tasks_heading
                 )
 
                 TaskGroupsList(

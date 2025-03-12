@@ -23,7 +23,7 @@ fun BottomNavigation(
 ) {
 
     val navItems = listOf(
-        NavigationItem.Collection,
+        NavigationItem.Tasks,
         NavigationItem.Home,
         NavigationItem.Settings
     )

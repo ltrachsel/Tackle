@@ -3,7 +3,7 @@
 
 
     <string name="navigation_today">Heute</string>
-    <string name="navigation_collection">Sammlung</string>
+    <string name="navigation_tasks">Aufgaben</string>
     <string name="navigation_settings">Einstellungen</string>
 
 
@@ -18,7 +18,7 @@
     <string name="screen_create_task_validation_title">Titel ist erforderlich</string>
     <string name="screen_create_task_validation_date">Datum ist erforderlich</string>
 
-    <string name="screen_collection_heading">Aufgabensammlung</string>
+    <string name="screen_tasks_heading">Aufgaben</string>
 
 
     <string name="todays_tasks">Deine heutigen Aufgaben</string>

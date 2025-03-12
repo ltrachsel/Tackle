@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ltr.tackle.Screens.CreateEditTask.CreateEditScreen
-import com.ltr.tackle.Screens.Collection.CollectionScreen
 import com.ltr.tackle.Screens.Home.HomeScreen
 import com.ltr.tackle.Screens.Settings.SettingsScreen
+import com.ltr.tackle.Screens.Tasks.TasksScreen
 
 @Composable
 fun NavigationGraph(
@@ -37,8 +37,8 @@ fun NavigationGraph(
                 { navController.navigate(SubScreen.CreateEditTask.route) }
             )
         }
-        composable(NavigationItem.Collection.route) {
-            CollectionScreen(navController)
+        composable(NavigationItem.Tasks.route) {
+            TasksScreen(navController)
         }
         composable(NavigationItem.Settings.route) {
             SettingsScreen(navController)

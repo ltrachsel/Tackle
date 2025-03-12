@@ -8,14 +8,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class Screen{
     HOME,
-    COLLECTION,
+    TASKS,
     SETTINGS,
     CREATEEDITTASK
 }
 
 sealed class NavigationItem(val route: String, val icon: ImageVector, val label: Int) {
     object Home : NavigationItem(Screen.HOME.name, Icons.Default.Home, R.string.navigation_today)
-    object Collection: NavigationItem(Screen.COLLECTION.name, Icons.Default.Menu, R.string.navigation_collection)
+    object Tasks: NavigationItem(Screen.TASKS.name, Icons.Default.Menu, R.string.navigation_tasks)
     object Settings: NavigationItem(Screen.SETTINGS.name, Icons.Default.Settings, R.string.navigation_settings)
 }
 

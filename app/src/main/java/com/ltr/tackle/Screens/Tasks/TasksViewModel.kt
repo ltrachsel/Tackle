@@ -1,4 +1,4 @@
-package com.ltr.tackle.Screens.Collection
+package com.ltr.tackle.Screens.Tasks
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CollectionViewModel @Inject constructor(
+class TasksViewModel @Inject constructor(
     private val taskRepository: TaskRepository
 ): ViewModel() {
 
