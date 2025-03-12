@@ -31,10 +31,10 @@ class HomeViewModel @Inject constructor (
         _tasks.addAll(taskRepository.getTasks(_date.value))
     }
 
-    fun taskClicked(task: Task) {
-        val updatedTask = taskRepository.toggleTaskStatus(task.id) ?: return
+    fun toggleTaskCompleted(id: String) {
+        val updatedTask = taskRepository.toggleTaskCompleted(id) ?: return
 
-        val taskIndex = tasks.indexOfFirst { it.id == task.id }
+        val taskIndex = tasks.indexOfFirst { it.id == id }
         _tasks[taskIndex] = updatedTask
     }
 }

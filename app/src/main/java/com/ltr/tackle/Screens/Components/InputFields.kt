@@ -122,8 +122,7 @@ fun DateInputWithValidation(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-                val formattedDate = value.format(formatter)
+                val formattedDate = convertDateToString(value)
 
                 Text(text = formattedDate)
                 Image(

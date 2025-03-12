@@ -23,4 +23,29 @@ class TasksViewModel @Inject constructor(
         _taskGroups.clear()
         _taskGroups.addAll(taskRepository.getTaskGroups(false))
     }
+
+    fun toggleTaskCompleted(id: String) {
+        val updatedTask = taskRepository.toggleTaskCompleted(id) ?: return
+
+        val indexes = findIndexes(id) ?: return
+        val (groupIndex, taskIndex) = indexes
+
+        // Create a new task list with the updated task
+        val updatedTasks = _taskGroups[groupIndex].tasks.toMutableList().apply {
+            this[taskIndex] = updatedTask
+        }
+
+        // Create a new TaskGroup with the updated tasks
+        _taskGroups[groupIndex] = _taskGroups[groupIndex].copy(tasks = updatedTasks)
+    }
+
+    private fun findIndexes(taskId: String): Pair<Int, Int>? {
+        for ((groupIndex, taskGroup) in _taskGroups.withIndex()) {
+            val taskIndex = taskGroup.tasks.indexOfFirst { it.id == taskId }
+            if (taskIndex != -1) {
+                return Pair(groupIndex, taskIndex) // Found the task, return indexes
+            }
+        }
+        return null // Task not found
+    }
 }

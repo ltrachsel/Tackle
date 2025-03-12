@@ -4,7 +4,7 @@
 
     <string name="navigation_today">Heute</string>
     <string name="navigation_tasks">Aufgaben</string>
-    <string name="navigation_settings">Einstellungen</string>
+    <string name="navigation_goals">Ziele</string>
 
 
 
@@ -19,6 +19,8 @@
     <string name="screen_create_task_validation_date">Datum ist erforderlich</string>
 
     <string name="screen_tasks_heading">Aufgaben</string>
+    <string name="screen_tasks_heading_today">Heute</string>
+    <string name="screen_tasks_heading_tomorrow">Morgen</string>
 
 
     <string name="todays_tasks">Deine heutigen Aufgaben</string>

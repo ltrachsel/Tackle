@@ -14,10 +14,12 @@ import com.ltr.tackle.Navigation.BottomNavigation
 import com.ltr.tackle.R
 import com.ltr.tackle.Screens.Components.TaskGroupsList
 import com.ltr.tackle.Screens.Components.Topbar
+import com.ltr.tackle.Screens.Components.TopbarButton
 
 @Composable
 fun TasksScreen(
     navController: NavController,
+    createSubTask: () -> Unit,
     viewModel: TasksViewModel = hiltViewModel()
 ) {
     val taskGroups = viewModel.taskGroups
@@ -40,10 +42,20 @@ fun TasksScreen(
             ) {
                 Topbar(
                     titleId = R.string.screen_tasks_heading
-                )
+                ){
+                    TopbarButton(
+                        imageId = R.drawable.plus,
+                        contentDescription = "add",
+                        onClickHandler = createSubTask,
+                        iconSize = 20.dp
+                    )
+                }
 
                 TaskGroupsList(
-                    taskGroups = taskGroups
+                    taskGroups = taskGroups,
+                    taskOnClick = { taskId ->
+                        viewModel.toggleTaskCompleted(taskId)
+                    }
                 )
 
             }

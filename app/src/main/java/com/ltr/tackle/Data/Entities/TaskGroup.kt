@@ -4,5 +4,5 @@ import java.time.LocalDate
 
 data class TaskGroup (
     val date: LocalDate,
-    val tasks: List<Task>
+    val tasks: MutableList<Task>
 )

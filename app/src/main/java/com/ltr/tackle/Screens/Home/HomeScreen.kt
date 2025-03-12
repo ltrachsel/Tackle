@@ -68,8 +68,8 @@ fun HomeScreen(
 
                 TaskList(
                     tasks = tasks,
-                    taskOnClick = { task ->
-                        viewModel.taskClicked(task)
+                    taskOnClick = { id ->
+                        viewModel.toggleTaskCompleted(id)
                     }
                 )
             }

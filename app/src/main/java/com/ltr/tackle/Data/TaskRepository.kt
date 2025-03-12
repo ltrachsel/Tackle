@@ -27,18 +27,12 @@ class TaskRepository @Inject constructor() {
     }
 
     fun getTaskGroups(includeOutdatedTasks: Boolean): List<TaskGroup> {
-        /*val filteredTasks = if (includeOutdatedTasks) {
-            tasks
-        } else {
-            tasks.filter { it.date.isAfter(LocalDate.now()) }
-        }*/
-
         val groupedByDate = tasks.groupBy { it.date }
 
         return groupedByDate.map { (date, tasks) ->
             TaskGroup(
                 date = date,
-                tasks = tasks.map { it.copy() }
+                tasks = ArrayList(tasks.map { it.copy() } )
             )
         }
     }
@@ -52,8 +46,8 @@ class TaskRepository @Inject constructor() {
         tasks.add(newTask)
     }
 
-    fun toggleTaskStatus(taskId: String): Task? {
-        val task = tasks.find { it.id == taskId }
+    fun toggleTaskCompleted(id: String): Task? {
+        val task = tasks.find { it.id == id }
 
         if (task == null)
             return null

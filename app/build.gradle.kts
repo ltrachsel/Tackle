@@ -58,10 +58,9 @@ dependencies {
     // Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
 
+    implementation("androidx.compose.foundation:foundation:1.7.3")
 
     implementation("io.github.theapache64:rebugger:1.0.0-rc03")
-
-
 
     // JSON serialization library, works with the Kotlin serialization plugin
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")

@@ -1,4 +1,4 @@
-package com.ltr.tackle.Screens.Settings
+package com.ltr.tackle.Screens.Goals
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +11,7 @@ import androidx.navigation.NavHostController
 import com.ltr.tackle.Navigation.BottomNavigation
 
 @Composable
-fun SettingsScreen(
+fun GoalsScreen(
     navController: NavHostController
 ) {
     Scaffold(

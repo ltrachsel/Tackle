@@ -33,13 +33,12 @@ import androidx.compose.ui.unit.dp
 import com.ltr.tackle.Data.Entities.Task
 import com.ltr.tackle.Data.Entities.TaskGroup
 import com.ltr.tackle.R
-import com.theapache64.rebugger.Rebugger
 import java.time.LocalDate
 
 @Composable
 fun TaskList(
     tasks: List<Task>,
-    taskOnClick: (Task) -> Unit
+    taskOnClick: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -50,14 +49,11 @@ fun TaskList(
                 .fillMaxWidth()
         ) {
             items(tasks, key = { it.id }) { task ->
-
-                //val isLastTask = task == tasks.lastOrNull()
-
-                val onClickHandler = remember(task.id) { { taskOnClick(task) } }
+                val onClick = remember(task.id) { { taskOnClick(task.id) } }
 
                 TaskListItem(
                     task = task,
-                    onClickHandler = onClickHandler
+                    onClick = onClick
                 )
             }
         }
@@ -68,7 +64,7 @@ fun TaskList(
 @Composable
 fun TaskListItem(
     task: Task,
-    onClickHandler: () -> Unit,
+    onClick: () -> Unit,
     onDelete: (() -> Unit)? = null
 ) {
     Log.d("Recomposition!", "Recomposition")
@@ -82,7 +78,7 @@ fun TaskListItem(
             modifier = Modifier
                 .weight(1f)
                 .clickable(
-                    onClick = onClickHandler,
+                    onClick = onClick,
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 )
@@ -148,73 +144,3 @@ fun TaskListItem(
         }
     }
 }
-
-
-@Composable
-fun TaskGroupsList(
-    taskGroups: List<TaskGroup>
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        LazyColumn (
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            taskGroups.forEach { taskGroup ->
-                item(key = taskGroup.date) {  // Use `item()` for single items
-                    TaskGroupHeading(taskGroup)
-                }
-
-                items(taskGroup.tasks, key = { it.id }) { task ->
-                    TaskListItem(
-                        task = task,
-                        onClickHandler = { /* Handle click */ },
-                        onDelete = { }
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun TaskGroupHeading(
-    taskGroup: TaskGroup
-) {
-    val title = when (taskGroup.date) {
-        LocalDate.now() -> "Today"
-        LocalDate.now().plusDays(1) -> "Tomorrow"
-        else -> taskGroup.date.toString()
-    }
-
-    Row (
-        modifier = Modifier
-            .padding(top = 10.dp, bottom = 25.dp)
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(text = title)
-    }
-}
-
-
-/*if(taskGroup.date.equals(LocalDate.now())) {
-                    for(task in taskGroup.tasks) {
-                        TaskListItem(
-                            task = task,
-                            onClickHandler = { }
-                        )
-                    }
-                }
-                else {
-                    TaskGroupHeading(taskGroup = taskGroup)
-
-                    for(task in taskGroup.tasks) {
-                        TaskListItem(
-                            task = task,
-                            onClickHandler = { }
-                        )
-                    }
-                }*/
